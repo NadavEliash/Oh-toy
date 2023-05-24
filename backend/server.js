@@ -1,6 +1,15 @@
 const express = require('express')
 const app = express()
-app.use(express.static('public'))
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.resolve(__dirname, 'public')))
+} else {
+    const corsOptions = {
+        origin: ['http://127.0.0.1:3000', 'http://localhost:3000'],
+        credentials: true
+    }
+    app.use(cors(corsOptions))
+}
 
 const toyService = require('./services/toy.service.js')
 
@@ -86,4 +95,9 @@ app.delete('/api/toy/:toyId', (req, res) => {
 })
 
 
-app.listen(3030, () => console.log('Server listening on port 3030!'))
+const port = process.env.PORT || 3030
+
+app.get('/**', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+})
+app.listen(port, () => console.log(`Server listening on port ${port}!`))
