@@ -5,7 +5,8 @@ const initialState = {
     toys: [],
     filterBy: {
         txt: '',
-        labels: []
+        labels: [],
+        sort: { item: null, desc: 1 }
     },
     labels: [
         'On wheels',

@@ -15,7 +15,6 @@ export function ToyIndex() {
     let filterBy = useSelector(storeState => storeState.filterBy)
     const dispatch = useDispatch()
 
-
     useEffect(() => {
         loadToys(filterBy)
     }, [filterBy])
@@ -53,7 +52,6 @@ export function ToyIndex() {
                 toys={toys}
                 onEditToy={onEditToy}
                 onRemoveToy={onRemoveToy}
-                // onToggleIsDone={onToggleIsDone}
                  />
         </section>
     )

@@ -10,26 +10,35 @@ module.exports = {
 
 const PAGE_SIZE = 4
 
-function query(filterBy = {}, sortBy = {}, pageNum = 1) {
+function query(filterBy = {}) {
     let toysToDisplay = toys
+
     if (filterBy.txt) {
         const regExp = new RegExp(filterBy.txt, 'i')
         toysToDisplay = toysToDisplay.filter(toy => regExp.test(toy.name))
     }
+
     if (filterBy.maxPrice) {
         toysToDisplay = toysToDisplay.filter(toy => toy.price <= filterBy.maxPrice)
     }
 
-    if (sortBy.sort === 'price') {
-        toysToDisplay.sort((a, b) => (a.price - b.price) * sortBy.desc)
-    } else {
-        toysToDisplay.sort((a, b) => (a.createdAt - b.createdAt) * sortBy.desc)
+    if (filterBy.labels) {
+        toysToDisplay = toysToDisplay.filter(toy =>
+            toy.labels.some(label =>
+                filterBy.labels.includes(label)
+            ))
     }
 
-    const startFrom = (pageNum - 1) * PAGE_SIZE
-    const toysToPage = toysToDisplay.slice(startFrom, startFrom + PAGE_SIZE)
+    if (filterBy.sort.item) {
+        const item = filterBy.sort.item
+        toysToDisplay.sort((a, b) => (a[item] - b[item]) * filterBy.sort.desc)
+    }
 
-    return Promise.resolve(toysToPage)
+
+    // const startFrom = (pageNum - 1) * PAGE_SIZE
+    // const toysToPage = toysToDisplay.slice(startFrom, startFrom + PAGE_SIZE)
+
+    return Promise.resolve(toysToDisplay)
 }
 
 function get(toyId) {
@@ -42,14 +51,14 @@ function remove(toyId) {
     console.log(toys)
     toys = toys.filter(toy => toy._id !== toyId)
     console.log(toys)
-    
+
     return _saveToysToFile()
 }
 
 function save(toy) {
     if (toy._id) {
         const toyToUpdate = toys.find(currToy => currToy._id === toy._id)
-        toyToUpdate = {...toyToUpdate, ...toy}
+        toyToUpdate = { ...toyToUpdate, ...toy }
     } else {
         toy._id = _makeId()
         toy.createdAt = Date.now()
@@ -72,7 +81,7 @@ function _saveToysToFile() {
     return new Promise((resolve, reject) => {
 
         const toysStr = JSON.stringify(toys, null, 2)
-        fs.writeFile('../data/toy.json', toysStr, (err) => {
+        fs.writeFile('../backend/data/toys.json', toysStr, (err) => {
             if (err) {
                 return console.log(err);
             }

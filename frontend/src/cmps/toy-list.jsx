@@ -5,7 +5,7 @@ import { ToyPreview } from '../cmps/toy-preview.jsx'
 export function ToyList({ toys, onRemoveToy }) {
 
     if (!toys) return <div>Loading...</div>
-
+    
     return (
         <ul className="toy-list">
             {toys.map(toy =>
@@ -19,6 +19,6 @@ export function ToyList({ toys, onRemoveToy }) {
                         </button>
                     </div>
                 </li>)}
-        </ul>)
-
+        </ul>
+        )
 }

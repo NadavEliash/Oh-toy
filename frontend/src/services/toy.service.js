@@ -4,7 +4,7 @@ import { utilService } from "./util.service.js"
 import { httpService } from './http.service.js'
 
 // const STORAGE_KEY = 'toyDB'
-const BASE_URL = '/api/toy/'
+const BASE_URL = '/api/toy'
 
 export const toyService = {
     query,
@@ -15,25 +15,22 @@ export const toyService = {
 }
 
 function query(filterBy) {
-    // const filterQueryParams =
-    //     '?' + new URLSearchParams(filterBy).toString()
-    //     + '&' + new URLSearchParams(sortBy).toString()
-    //     + `&page=${pageNum}`
+    // const filterQueryParams = '?' + new URLSearchParams(filterBy).toString()
 
     return httpService.get(BASE_URL, filterBy)
 }
 
 function getById(toyId) {
-    return httpService.get(BASE_URL + toyId)
+    return httpService.get(BASE_URL + '/' + toyId)
 }
 
 function remove(toyId) {
-    return httpService.delete(BASE_URL + toyId)
+    return httpService.delete(BASE_URL + '/' + toyId)
 }
 
 function save(toy) {
     const method = toy._id ? 'put' : 'post'
-    return httpService[method](BASE_URL + 'save/', toy)
+    return httpService[method](BASE_URL + '/save', toy)
 }
 
 function getEmptyToy() {

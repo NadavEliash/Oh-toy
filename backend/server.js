@@ -1,7 +1,9 @@
 const express = require('express')
 const app = express()
 const path = require('path')
+const cors = require('cors')
 
+const toyService = require('./services/toy.service.js')
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.resolve(__dirname, 'public')))
@@ -13,13 +15,12 @@ if (process.env.NODE_ENV === 'production') {
     app.use(cors(corsOptions))
 }
 
-const toyService = require('./services/toy.service.js')
-
+app.use(express.json())
 
 // Query
 app.get('/api/toy', (req, res) => {
-    const { txt, maxPrice } = req.query
-    const filterBy = { txt, maxPrice }
+    const { txt, maxPrice, labels, sort } = req.query
+    const filterBy = { txt, maxPrice, labels, sort }
     toyService.query(filterBy).then(toys => {
         res.send(toys)
     })
@@ -27,6 +28,7 @@ app.get('/api/toy', (req, res) => {
 
 // CREATE
 app.post('/api/toy/save', (req, res) => {
+    console.log(req.body)
     const {
         name,
         price,
@@ -35,7 +37,6 @@ app.post('/api/toy/save', (req, res) => {
         inStock,
         imgUrl
     } = req.body
-    console.log(req.body)
 
     const toy = {
         name,
@@ -99,8 +100,8 @@ app.delete('/api/toy/:toyId', (req, res) => {
 
 const port = process.env.PORT || 3030
 
-app.get('/**', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-})
+// app.get('/**', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// })
 
 app.listen(port, () => console.log(`Server listening on port ${port}!`))

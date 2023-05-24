@@ -1,11 +1,11 @@
 import Axios from 'axios'
 
 const BASE_URL = process.env.NODE_ENV === 'production'
-    ? '/api/toy'
-    : '//localhost:3030/api/'
-
+    ? '/'
+    : '//localhost:3030'
 
 console.log('BASE_URL:', BASE_URL)
+
 var axios = Axios.create({
     withCredentials: true
 })

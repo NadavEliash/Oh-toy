@@ -6,13 +6,14 @@ export function ToyFilter({ filterBy, onFilterBy }) {
     function handleChange({ target }) {
         const field = target.name
         const value = target.value
+
         onFilterBy({ [field]: value })
     }
 
     function handleLabelFilter({ target }) {
         const label = target.name
         const labels = filterBy.labels ? filterBy.labels : []
-        
+
         if (target.checked) {
             onFilterBy({ labels: [...labels, label] })
         } else {
@@ -30,6 +31,11 @@ export function ToyFilter({ filterBy, onFilterBy }) {
         handleChange({ target: { name: 'txt', value: '' } })
     }
 
+    function handleSort(item) {
+        let desc = filterBy.sort.desc * (-1)
+        onFilterBy({ sort: { item, desc } })
+    }
+
     const { txt } = ''
     return (
         <section className="toy-filter">
@@ -45,6 +51,15 @@ export function ToyFilter({ filterBy, onFilterBy }) {
                     placeholder="search toys" />
                 <button onClick={cancelSearch}>X</button>
             </form>
+            <div className="max-price-range">
+                <label htmlFor="maxPrice">
+                    Max Price: {filterBy.maxPrice}</label>
+                <input
+                    onChange={handleChange}
+                    name="maxPrice" id="maxPrice" type="range"
+                    min="10" max="300" value={filterBy.maxPrice || "150"} step="1"
+                />
+            </div>
             <div className="label-selector">
                 {labels.map(label => (
                     <div key={label}>
@@ -56,6 +71,11 @@ export function ToyFilter({ filterBy, onFilterBy }) {
                         {label}
                     </div>
                 ))}
+            </div>
+            <div className="sort-container">
+                <h2 onClick={() => handleSort('name')}>Sort by Name</h2>
+                <h2 onClick={() => handleSort('price')}>Sort by Price</h2>
+                <h2 onClick={() => handleSort('createdAt')}>Sort by Date</h2>
             </div>
         </section>
     )
