@@ -48,16 +48,13 @@ function get(toyId) {
 }
 
 function remove(toyId) {
-    console.log(toys)
     toys = toys.filter(toy => toy._id !== toyId)
-    console.log(toys)
-
     return _saveToysToFile()
 }
 
 function save(toy) {
     if (toy._id) {
-        const toyToUpdate = toys.find(currToy => currToy._id === toy._id)
+        let toyToUpdate = toys.find(currToy => currToy._id === toy._id)
         toyToUpdate = { ...toyToUpdate, ...toy }
     } else {
         toy._id = _makeId()

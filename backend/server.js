@@ -28,7 +28,6 @@ app.get('/api/toy', (req, res) => {
 
 // CREATE
 app.post('/api/toy/save', (req, res) => {
-    console.log(req.body)
     const {
         name,
         price,
