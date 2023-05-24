@@ -34,7 +34,7 @@ app.post('/api/toy/save', (req, res) => {
         labels,
         createdAt,
         inStock,
-        imgUrl
+        imgURL
     } = req.body
 
     const toy = {
@@ -43,7 +43,7 @@ app.post('/api/toy/save', (req, res) => {
         labels,
         createdAt,
         inStock,
-        imgUrl
+        imgURL
     }
 
     toyService.save(toy)
@@ -60,7 +60,7 @@ app.put('/api/toy/save', (req, res) => {
         labels,
         createdAt,
         inStock,
-        imgUrl
+        imgURL
     } = req.body
 
     const toy = {
@@ -70,7 +70,7 @@ app.put('/api/toy/save', (req, res) => {
         labels,
         createdAt,
         inStock,
-        imgUrl
+        imgURL
     }
 
     toyService.save(toy)

@@ -31,7 +31,9 @@ function query(filterBy = {}) {
 
     if (filterBy.sort.item) {
         const item = filterBy.sort.item
-        toysToDisplay.sort((a, b) => (a[item] - b[item]) * filterBy.sort.desc)
+        toysToDisplay.sort((a, b) =>
+            (a[item] > b[item]) ? filterBy.sort.desc
+                : ((b[item] > a[item]) ? (- filterBy.sort.desc) : 0))
     }
 
 
@@ -54,8 +56,8 @@ function remove(toyId) {
 
 function save(toy) {
     if (toy._id) {
-        let toyToUpdate = toys.find(currToy => currToy._id === toy._id)
-        toyToUpdate = { ...toyToUpdate, ...toy }
+        toys = toys.filter(currToy => currToy._id !== toy._id)
+        toys.unshift(toy)
     } else {
         toy._id = _makeId()
         toy.createdAt = Date.now()
