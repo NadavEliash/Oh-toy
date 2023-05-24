@@ -4,6 +4,7 @@ import { ToyPreview } from '../cmps/toy-preview.jsx'
 
 export function ToyList({ toys, onRemoveToy }) {
 
+    if(!toys || !toys.length) return <div>Loading...</div>
     return (
         <ul className="toy-list">
             {toys.map(toy =>
