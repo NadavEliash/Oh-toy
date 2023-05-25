@@ -1,4 +1,12 @@
+import { useState } from "react"
 import { useSelector } from "react-redux"
+
+import Box from '@mui/material/Box'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import { MultipleSelectCheckmarks } from "./label-filter"
 
 export function ToyFilter({ filterBy, onFilterBy }) {
     const labels = useSelector(storeState => storeState.labels)
@@ -8,19 +16,6 @@ export function ToyFilter({ filterBy, onFilterBy }) {
         const value = target.value
 
         onFilterBy({ [field]: value })
-    }
-
-    function handleLabelFilter({ target }) {
-        const label = target.name
-        const labels = filterBy.labels ? filterBy.labels : []
-
-        if (target.checked) {
-            onFilterBy({ labels: [...labels, label] })
-        } else {
-            const idx = labels.indexOf(label)
-            labels.splice(idx, 1)
-            onFilterBy({ labels })
-        }
     }
 
     function onSubmitFilter(ev) {
@@ -60,7 +55,11 @@ export function ToyFilter({ filterBy, onFilterBy }) {
                     min="10" max="300" value={filterBy.maxPrice || "150"} step="1"
                 />
             </div>
-            <div className="label-selector">
+
+            <MultipleSelectCheckmarks />
+            
+            {/* <BasicSelect filterBy={filterBy} onFilterBy={onFilterBy} /> */}
+            {/* <div className="label-selector">
                 {labels.map(label => (
                     <div key={label}>
                         <input
@@ -71,13 +70,56 @@ export function ToyFilter({ filterBy, onFilterBy }) {
                         {label}
                     </div>
                 ))}
-            </div>
+            </div> */}
             <div className="sort-container">
-                <h2 onClick={() => handleSort('name')}>Sort by Name</h2>
-                <h2 onClick={() => handleSort('price')}>Sort by Price</h2>
-                <h2 onClick={() => handleSort('createdAt')}>Sort by Date</h2>
+                <button onClick={() => handleSort('name')}>sort by Name</button>
+                <button onClick={() => handleSort('price')}>sort by Price</button>
+                <button onClick={() => handleSort('createdAt')}>sort by Date</button>
             </div>
         </section>
     )
 
 }
+
+
+// export function BasicSelect({ filterBy, onFilterBy }) {
+//     const labels = useSelector(storeState => storeState.labels)
+//     const [item, setItem] = useState('')
+
+//     const handleChange = (event) => {
+//         handleLabelFilter(event.target)
+//         setItem(event.target.value)
+//     }
+
+//     function handleLabelFilter(target) {
+//         const currLabel = target.name
+//         const labelsToFilter = filterBy.labels ? filterBy.labels : []
+
+//         if (target.checked) {
+//             onFilterBy({ labels: [...labelsToFilter, currLabel] })
+//         } else {
+//             const idx = labels.indexOf(currLabel)
+//             labelsToFilter.splice(idx, 1)
+//             onFilterBy({ labelsToFilter })
+//         }
+//     }
+
+//     return (
+//         <Box sx={{ minWidth: 120 }}>
+//             <FormControl fullWidth>
+//                 <InputLabel id="demo-simple-select-label">Labels</InputLabel>
+//                 <Select
+//                     labelId="demo-simple-select-label"
+//                     id="demo-simple-select"
+//                     value={item}
+//                     label="labels"
+//                     onChange={handleChange}
+//                 >
+//                     {labels.map(label =>
+//                         <MenuItem value={`${label}`}>{label}</MenuItem>
+//                     )}
+//                 </Select>
+//             </FormControl>
+//         </Box>
+//     )
+// }

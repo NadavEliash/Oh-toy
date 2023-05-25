@@ -49,8 +49,9 @@ export function Dashboard() {
     return (
         <section className="dashboard-container">
             <h1>Average prices per Label</h1>
-
-            <Doughnut data={chartData} />
+            <div className="doughnut">
+                <Doughnut data={chartData} />
+            </div>
         </section>)
 }
 

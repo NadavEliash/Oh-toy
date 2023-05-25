@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { store } from "../store/store.js"
@@ -13,7 +13,6 @@ import { loadToys, removeToy, saveToy } from '../store/toy.action.js'
 export function ToyIndex() {
     let toys = useSelector(storeState => storeState.toys)
     let filterBy = useSelector(storeState => storeState.filterBy)
-    const dispatch = useDispatch()
 
     useEffect(() => {
         loadToys(filterBy)
